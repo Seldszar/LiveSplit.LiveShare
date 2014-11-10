@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace LiveSplit
 {
-    public static class StringExtenstions
+    public static class StringExtensions
     {
         public static IEnumerable<string> Wrap(this string str, int maxLength)
         {
