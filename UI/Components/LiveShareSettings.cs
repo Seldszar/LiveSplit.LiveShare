@@ -139,11 +139,28 @@ namespace LiveSplit.UI.Components
                     }
                 }
             };
+
+            EnableControls();
+        }
+
+        private void EnableControls()
+        {
+            bool enabled = Authorizer.IsAuthorized;
+            btnAuthorize.Enabled = !enabled;
+        }
+
+        private void InsertMacroToRichTextBox(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            RichTextBox control = cmsInsertMacro.SourceControl as RichTextBox;
+
+            control.Text = control.Text.Insert(control.SelectionStart, item.Tag.ToString());
         }
 
         private void btnAuthorize_Click(object sender, EventArgs e)
         {
             Authorizer.Authorize();
+            EnableControls();
         }
     }
 }

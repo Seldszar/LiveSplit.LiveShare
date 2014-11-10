@@ -25,8 +25,6 @@ namespace LiveSplit.UI.Components
         protected ITimeFormatter DeltaFormatter { get; set; }
         protected ITimeFormatter TimeFormatter { get; set; }
 
-        private Thread UpdateThread { get; set; }
-
         public LiveShare(LiveSplitState state)
         {
             Settings = new LiveShareSettings();
@@ -186,7 +184,14 @@ namespace LiveSplit.UI.Components
 
                     using (var twitter = new TwitterContext(Settings.Authorizer))
                     {
-                        twitter.UpdateStatus(status);
+                        if (status.Length > 140)
+                        {
+                            twitter.UpdateStatus(status.Wrap(137).First() + "...");
+                        }
+                        else
+                        {
+                            twitter.UpdateStatus(status);
+                        }
                     }
                 }
             });
