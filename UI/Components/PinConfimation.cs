@@ -10,7 +10,7 @@ namespace LiveSplit.UI.Components
         {
             InitializeComponent();
 
-            txtPin.DataBindings.Add("Text", this, "Pin", false, DataSourceUpdateMode.OnPropertyChanged);
+            txtPin.DataBindings.Add("Text", this, "Pin");
         }
     }
 }

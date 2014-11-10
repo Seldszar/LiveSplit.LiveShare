@@ -1,6 +1,7 @@
 ﻿using LinqToTwitter;
 using System;
 using System.Diagnostics;
+using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml;
@@ -73,6 +74,7 @@ namespace LiveSplit.UI.Components
         public XmlNode GetSettings(XmlDocument document)
         {
             var settingsNode = document.CreateElement("Settings");
+
             settingsNode.AppendChild(ToElement(document, "Version", Assembly.GetExecutingAssembly().GetName().Version.ToString(2)));
             settingsNode.AppendChild(ToElement(document, "Credentials", Credentials));
             settingsNode.AppendChild(ToElement(document, "Split", Split));
@@ -89,6 +91,7 @@ namespace LiveSplit.UI.Components
             settingsNode.AppendChild(ToElement(document, "Pause", Pause));
             settingsNode.AppendChild(ToElement(document, "Resume", Resume));
             settingsNode.AppendChild(ToElement(document, "StartTimer", StartTimer));
+
             return settingsNode;
         }
 
@@ -99,6 +102,7 @@ namespace LiveSplit.UI.Components
             if (element["Credentials"] != null)
             {
                 Credentials.Load(element["Credentials"].InnerText);
+
                 InitAuthorizer();
             }
 
@@ -121,7 +125,9 @@ namespace LiveSplit.UI.Components
         private XmlElement ToElement<T>(XmlDocument document, String name, T value)
         {
             var element = document.CreateElement(name);
+
             element.InnerText = value.ToString();
+
             return element;
         }
 
@@ -143,9 +149,21 @@ namespace LiveSplit.UI.Components
             EnableControls();
         }
 
+        private void Authorize()
+        {
+            try
+            {
+                Authorizer.Authorize();
+            }
+            catch (WebException) { }
+
+            EnableControls();
+        }
+
         private void EnableControls()
         {
             bool enabled = Authorizer.IsAuthorized;
+
             btnAuthorize.Enabled = !enabled;
         }
 
@@ -159,8 +177,7 @@ namespace LiveSplit.UI.Components
 
         private void btnAuthorize_Click(object sender, EventArgs e)
         {
-            Authorizer.Authorize();
-            EnableControls();
+            Authorize();
         }
     }
 }

@@ -70,10 +70,11 @@
             this.lblInstructions.Name = "lblInstructions";
             this.lblInstructions.Size = new System.Drawing.Size(260, 59);
             this.lblInstructions.TabIndex = 4;
-            this.lblInstructions.Text = "Live Tweet requires a Twitter authorization to be able to send tweets.\r\nTwitter w" +
-    "ill then be asked to enter a PIN code that you must enter in the textbox below:";
+            this.lblInstructions.Text = "The component requires an authorization from Twitter to be able to send tweets.\r\n" +
+    "Twitter will then be asked to enter a PIN code that you must enter in the textbo" +
+    "x below:";
             // 
-            // LiveTweetPinConfimation
+            // PinConfimation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -83,9 +84,9 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.txtPin);
-            this.Name = "LiveTweetPinConfimation";
+            this.Name = "PinConfimation";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "PIN confirmation";
+            this.Text = "Twitter authorization required";
             this.ResumeLayout(false);
             this.PerformLayout();
 
