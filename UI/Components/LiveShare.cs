@@ -187,7 +187,9 @@ namespace LiveSplit.UI.Components
                         {
                             if (status.Length > 140)
                             {
-                                twitter.UpdateStatus(status.Wrap(137).First() + "...");
+                                status = status.Wrap(137).First();
+
+                                twitter.UpdateStatus(status + "...");
                             }
                             else
                             {
