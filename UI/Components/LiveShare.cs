@@ -165,31 +165,34 @@ namespace LiveSplit.UI.Components
         {
             Task.Factory.StartNew(() =>
             {
-                if (!string.IsNullOrWhiteSpace(status))
+                if (Settings.Authorizer.IsAuthorized)
                 {
-                    status = status.Replace("$gameName", State.Run.GameName);
-                    status = status.Replace("$categoryName", State.Run.CategoryName);
-                    status = status.Replace("$attemptCount", State.Run.AttemptCount.ToString());
-
-                    if (State.CurrentSplitIndex > 0)
+                    if (!string.IsNullOrWhiteSpace(status))
                     {
-                        int splitIndex = State.CurrentSplitIndex - 1;
-                        TimeSpan? delta = LiveSplitStateHelper.GetLastDelta(State, splitIndex, State.CurrentComparison, State.CurrentTimingMethod);
+                        status = status.Replace("$gameName", State.Run.GameName);
+                        status = status.Replace("$categoryName", State.Run.CategoryName);
+                        status = status.Replace("$attemptCount", State.Run.AttemptCount.ToString());
 
-                        status = status.Replace("$splitName", State.Run[splitIndex].Name);
-                        status = status.Replace("$splitTime", TimeFormatter.Format(State.Run[splitIndex].SplitTime[State.CurrentTimingMethod]));
-                        status = status.Replace("$deltaTime", DeltaFormatter.Format(delta));
-                    }
-
-                    using (var twitter = new TwitterContext(Settings.Authorizer))
-                    {
-                        if (status.Length > 140)
+                        if (State.CurrentSplitIndex > 0)
                         {
-                            twitter.UpdateStatus(status.Wrap(137).First() + "...");
+                            int splitIndex = State.CurrentSplitIndex - 1;
+                            TimeSpan? delta = LiveSplitStateHelper.GetLastDelta(State, splitIndex, State.CurrentComparison, State.CurrentTimingMethod);
+
+                            status = status.Replace("$splitName", State.Run[splitIndex].Name);
+                            status = status.Replace("$splitTime", TimeFormatter.Format(State.Run[splitIndex].SplitTime[State.CurrentTimingMethod]));
+                            status = status.Replace("$deltaTime", DeltaFormatter.Format(delta));
                         }
-                        else
+
+                        using (var twitter = new TwitterContext(Settings.Authorizer))
                         {
-                            twitter.UpdateStatus(status);
+                            if (status.Length > 140)
+                            {
+                                twitter.UpdateStatus(status.Wrap(137).First() + "...");
+                            }
+                            else
+                            {
+                                twitter.UpdateStatus(status);
+                            }
                         }
                     }
                 }
