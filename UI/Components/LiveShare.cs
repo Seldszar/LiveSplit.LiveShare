@@ -84,11 +84,17 @@ namespace LiveSplit.UI.Components
             {
                 if (State.Run.Last().PersonalBestSplitTime[State.CurrentTimingMethod] == null || State.Run.Last().SplitTime[State.CurrentTimingMethod] < State.Run.Last().PersonalBestSplitTime[State.CurrentTimingMethod])
                 {
-                    UpdateStatus(Settings.PersonalBest);
+                    if (!string.IsNullOrWhiteSpace(Settings.PersonalBest))
+                    {
+                        UpdateStatus(Settings.PersonalBest);
+                    }
                 }
                 else
                 {
-                    UpdateStatus(Settings.NotAPersonalBest);
+                    if (!string.IsNullOrWhiteSpace(Settings.NotAPersonalBest))
+                    {
+                        UpdateStatus(Settings.NotAPersonalBest);
+                    }
                 }
             }
             else
@@ -101,11 +107,17 @@ namespace LiveSplit.UI.Components
                 {
                     if (delta < TimeSpan.Zero)
                     {
-                        status = Settings.SplitAheadGaining;
+                        if (!string.IsNullOrWhiteSpace(Settings.SplitAheadGaining))
+                        {
+                            status = Settings.SplitAheadGaining;
+                        }
 
                         if (LiveSplitStateHelper.GetPreviousSegment(State, splitIndex, false, false, true, State.CurrentComparison, State.CurrentTimingMethod) > TimeSpan.Zero)
                         {
-                            status = Settings.SplitAheadLosing;
+                            if (!string.IsNullOrWhiteSpace(Settings.SplitAheadLosing))
+                            {
+                                status = Settings.SplitAheadLosing;
+                            }
                         }
                     }
                     else
@@ -114,7 +126,10 @@ namespace LiveSplit.UI.Components
 
                         if (LiveSplitStateHelper.GetPreviousSegment(State, splitIndex, false, false, true, State.CurrentComparison, State.CurrentTimingMethod) < TimeSpan.Zero)
                         {
-                            status = Settings.SplitBehindGaining;
+                            if (!string.IsNullOrWhiteSpace(Settings.SplitBehindGaining))
+                            {
+                                status = Settings.SplitBehindGaining;
+                            }
                         }
                     }
                 }
@@ -125,7 +140,10 @@ namespace LiveSplit.UI.Components
                 {
                     if (State.Run[splitIndex].BestSegmentTime[State.CurrentTimingMethod] == null || curSegment < State.Run[splitIndex].BestSegmentTime[State.CurrentTimingMethod])
                     {
-                        status = Settings.BestSegment;
+                        if (!string.IsNullOrWhiteSpace(Settings.BestSegment))
+                        {
+                            status = Settings.BestSegment;
+                        }
                     }
                 }
 
