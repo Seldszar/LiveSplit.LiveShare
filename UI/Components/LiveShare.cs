@@ -95,7 +95,7 @@ namespace LiveSplit.UI.Components
             {
                 string status = Settings.Split;
                 int splitIndex = State.CurrentSplitIndex - 1;
-                TimeSpan? delta = State.Run[splitIndex].SplitTime[State.CurrentTimingMethod] - State.Run[splitIndex].Comparisons[State.CurrentComparison][State.CurrentTimingMethod];
+                TimeSpan? delta = LiveSplitStateHelper.GetLastDelta(State, splitIndex, State.CurrentComparison, State.CurrentTimingMethod);
 
                 if (delta != null)
                 {
@@ -174,7 +174,7 @@ namespace LiveSplit.UI.Components
                     if (State.CurrentSplitIndex > 0)
                     {
                         int splitIndex = State.CurrentSplitIndex - 1;
-                        TimeSpan? delta = State.Run[splitIndex].SplitTime[State.CurrentTimingMethod] - State.Run[splitIndex].Comparisons[State.CurrentComparison][State.CurrentTimingMethod];
+                        TimeSpan? delta = LiveSplitStateHelper.GetLastDelta(State, splitIndex, State.CurrentComparison, State.CurrentTimingMethod);
 
                         status = status.Replace("$splitName", State.Run[splitIndex].Name);
                         status = status.Replace("$splitTime", TimeFormatter.Format(State.Run[splitIndex].SplitTime[State.CurrentTimingMethod]));
